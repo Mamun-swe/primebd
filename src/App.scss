@@ -1,0 +1,131 @@
+@import "~bootstrap/scss/bootstrap";
+
+$primary-color: #F4A261;
+
+// Content Card / Video Card / Category Card
+.content-card {
+    width: 50%;
+    float: left;
+    border: 0;
+    padding: 8px;
+
+    a {
+        text-decoration: none;
+
+        .card-body {
+            padding: 0;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 6px;
+            border: 1px solid #dfdfdf59;
+            position: relative;
+
+            img {
+                min-width: 100%;
+                min-height: 100%;
+            }
+
+            .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.466);
+
+                h6 {
+                    color: #fff;
+                    margin-bottom: 0;
+                    font-family: 'Roboto', sans-serif;
+                }
+
+                .content {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    padding: 8px;
+
+                    p {
+                        color: #fff;
+                        margin-top: 4px;
+                        font-size: 14px;
+                        font-weight: 400;
+                        margin-bottom: 0;
+                        font-family: 'Roboto', sans-serif;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// four-O-four-box
+.fourOfour-box {
+    img {
+        width: 200px;
+        margin: auto;
+    }
+}
+
+// Loading
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+
+    .loader {
+        border: 1px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 1px solid $primary-color;
+        width: 40px;
+        height: 40px;
+        -webkit-animation: spin 0.5s linear infinite; /* Safari */
+        animation: spin 0.5s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+.flex-center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 100%;
+}
+
+.flex-column {
+    -ms-flex-direction: column !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+    flex-direction: column !important;
+}

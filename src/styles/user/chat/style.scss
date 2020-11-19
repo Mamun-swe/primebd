@@ -1,0 +1,187 @@
+@import "../../../App.scss";
+
+.links-tab {
+    a {
+        color: rgb(119, 118, 118);
+        display: block;
+        font-size: 14px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-decoration: none;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .is-Active {
+        color: #000;
+    }
+}
+
+// Messages Persons
+.messages-persons {
+    a {
+        text-decoration: none;
+
+        .message {
+            padding: 10px 15px;
+            border-bottom: 1px solid #dfdfdf9f;
+
+            .name-circle {
+                width: 40px;
+                height: 40px;
+                overflow: hidden;
+                background: #dfdfdf73;
+                text-align: center;
+
+                h5 {
+                    color: #007cfa;
+                    font-size: 18px;
+                    font-weight: 900;
+                    font-family: 'Roboto', sans-serif;
+                }
+            }
+
+            .person {
+                p {
+                    color: #000;
+                    margin-top: 6px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 10px;
+                    font-family: 'Roboto', sans-serif;
+                }
+
+                small {
+                    color: #555;
+                    text-transform: capitalize;
+                    font-family: 'Roboto', sans-serif;
+                }
+            }
+        }
+    }
+}
+
+// Peoples
+.peoples {
+    .account-created-persons {
+        a {
+            text-decoration: none;
+
+            .people {
+                padding: 10px 15px;
+                border-bottom: 1px solid #dfdfdf9f;
+
+                .name-circle {
+                    width: 40px;
+                    height: 40px;
+                    overflow: hidden;
+                    background: #dfdfdf73;
+                    text-align: center;
+
+                    h5 {
+                        color: #007cfa;
+                        font-size: 18px;
+                        font-weight: 900;
+                        font-family: 'Roboto', sans-serif;
+                    }
+                }
+
+                .person-name {
+                    p {
+                        color: #000;
+                        margin-top: 10px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        font-family: 'Roboto', sans-serif;
+                    }
+                }
+
+                .message-icon {
+                    padding-top: 7px;
+                }
+            }
+        }
+    }
+}
+
+// Messages Room
+.message-room {
+    // Conversation Container
+    .conversation-container {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-bottom: 75px;
+
+        .message {
+            .d-flex {
+                width: 100%;
+                margin: 15px 0px;
+
+                p {
+                    margin-bottom: 0;
+                    padding: 6px 15px;
+                    font-size: 15px;
+                    font-family: 'Roboto', sans-serif;
+                }
+
+                .recived-message {
+                    width: 65%;
+                    color: #fff;
+                    border-radius: 16px;
+                    background: #007cfa !important;
+                }
+
+                .sender-message {
+                    width: 65%;
+                    border-radius: 16px;
+                    background: rgba(85, 85, 85, 0.123);
+                }
+
+                .person-name-circle {
+                    width: 32px;
+                    height: 32px;
+                    overflow: hidden;
+                    background: #dfdfdf73;
+                    text-align: center;
+
+                    h6 {
+                        font-size: 17px;
+                        font-weight: 900;
+                        margin-bottom: 0;
+                        text-transform: uppercase;
+                        font-family: 'Roboto', sans-serif;
+                    }
+                }
+            }
+        }
+    }
+
+    // Message Sent Container
+    .message-sent-container {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 999;
+        background: #fff;
+        padding: 10px;
+        width: 100%;
+
+        .form-control {
+            height: 40px;
+            font-size: 14px;
+            padding-left: 15px;
+            border-radius: 25px;
+            background: #dfdfdf86;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .error-border {
+            border: 1px solid rgba(165, 42, 42, 0.596);
+        }
+
+        .btn {
+            width: 40px;
+            height: 40px;
+            background: #dfdfdf86;
+        }
+    }
+}

@@ -1,0 +1,49 @@
+@import "../../App.scss";
+
+.auth {
+    width: 100%;
+    height: 100vh;
+
+    .card {
+        width: 93vw;
+
+        .card-header {
+            img {
+                width: 70px;
+            }
+
+            h4 {
+                font-weight: 900;
+                font-family: 'Roboto', sans-serif;
+            }
+        }
+
+        .card-body {
+            small {
+                font-family: 'Roboto', sans-serif;
+            }
+
+            .form-control {
+                font-size: 14px;
+                font-weight: 400;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            .form-control:focus {
+                border: 1px solid #dfdfdf;
+            }
+
+            .btn {
+                font-size: 17px;
+                font-weight: 900;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            p {
+                font-size: 15px;
+                margin-bottom: 5px;
+                font-family: 'Roboto', sans-serif;
+            }
+        }
+    }
+}
