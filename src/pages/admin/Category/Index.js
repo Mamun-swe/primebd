@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react'
 import '../../../styles/admin/style.scss'
 import axios from 'axios'
 import api from '../../../utils/url'
-
+import { Link } from 'react-router-dom'
+import Icon from 'react-icons-kit'
+import { ic_add } from 'react-icons-kit/md'
 
 import Navbar from '../../../components/AdminNavbar/Index'
 import LoadingComponent from '../../../components/Loading/Index'
 import FourOFourComponent from '../../../components/FourOFour/Index'
 
 import demoImg from '../../../assets/movie.jpg'
-import { Link } from 'react-router-dom'
-import Icon from 'react-icons-kit'
-import { ic_add } from 'react-icons-kit/md'
 
 const Index = () => {
     const [isLoading, setLoading] = useState(true)

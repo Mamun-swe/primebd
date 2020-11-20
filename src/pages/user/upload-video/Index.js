@@ -17,7 +17,7 @@ const Index = () => {
     }
 
     return (
-        <div className="upload-video">
+        <div className="upload">
             <Navbar
                 title={'Upload video'}
                 back={true}

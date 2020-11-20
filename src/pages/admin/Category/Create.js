@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
+import '../../../styles/user/upload-video/style.scss'
 
 import Navbar from '../../../components/AdminNavbar/Index'
 import Loading from '../../../components/Loading/Index'
@@ -39,7 +40,7 @@ const Create = () => {
         }
     }
     return (
-        <div className="category-create">
+        <div className="category-create upload">
             <Navbar back={true} title={'Create Category'} />
             {isLoading ? <Loading /> : null}
 
@@ -66,18 +67,23 @@ const Create = () => {
 
                             {/* Image */}
                             <div className="form-group mb-4">
-                                {fileErr ? <small className="text-danger">Image is required</small>
-                                    : <small>Image</small>
+                                {fileErr ? <small className="text-danger">Banner is required</small>
+                                    : <small>Banner</small>
                                 }
-
+                                <br />
                                 <input
                                     type="file"
+                                    id="banner"
+                                    className="inputfile"
                                     accept="image/*"
                                     onChange={imageChangeHandeller}
                                 />
+                                <label htmlFor="banner">
+                                    <p>Banner Image</p>
+                                </label>
                             </div>
 
-                            <button type="submit" style={styles.btn} className="btn btn-block shadow-none">Create</button>
+                            <button type="submit" className="btn btn-block btn-primary rounded-0 text-white shadow-none">Create</button>
 
                         </form>
                     </div>
@@ -89,12 +95,3 @@ const Create = () => {
 };
 
 export default Create;
-
-const styles = {
-    btn: {
-        color: '#fff',
-        fontWeight: 700,
-        fontSize: 16,
-        background: '#F4A261'
-    }
-}

@@ -6,6 +6,9 @@ import CategoryIndex from './Category/Index'
 import CategoryCreate from './Category/Create'
 import VideosIndex from './Videos/Index'
 import VideoShow from './Videos/Show'
+import AudioIndex from './Audio/Index'
+import VideoUpload from './Upload/Video'
+import AudioUpload from './Upload/Audio'
 
 const Master = () => {
     return (
@@ -16,6 +19,9 @@ const Master = () => {
                 <Route exact path="/admin/category/create" component={CategoryCreate} />
                 <Route exact path="/admin/videos" component={VideosIndex} />
                 <Route exact path="/admin/videos/:id/:name" component={VideoShow} />
+                <Route exact path="/admin/audio" component={AudioIndex} />
+                <Route exact path="/admin/upload/video" component={VideoUpload} />
+                <Route exact path="/admin/upload/audio" component={AudioUpload} />
 
             </Route>
         </div>
