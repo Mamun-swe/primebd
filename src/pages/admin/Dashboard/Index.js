@@ -41,6 +41,17 @@ const Index = () => {
                         </div>
                     </div>
 
+                    <div className="col-6 p-0">
+                        <div className="card border-0 p-2">
+                            <div className="card-body shadow-sm bg-warning p-2" style={style.cardBody}>
+                                <div className="flex-center flex-column">
+                                    <p className="mb-1" style={style.p}>120</p>
+                                    <h5 className="mb-0">Audio</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -11,7 +11,9 @@ import {
     ic_ondemand_video,
     ic_cloud_upload,
     ic_power_settings_new,
-    ic_keyboard_backspace
+    ic_keyboard_backspace,
+    ic_queue_music,
+    ic_audiotrack
 } from 'react-icons-kit/md'
 
 
@@ -93,13 +95,25 @@ const Index = ({ title, back }) => {
                                 <Icon icon={ic_favorite} size={17} />
                                 <span className="ml-2">Favourite</span>
                             </NavLink>
+                            <NavLink exact activeClassName="is-Active" to="/home/audio">
+                                <Icon icon={ic_queue_music} size={17} />
+                                <span className="ml-2">Audio</span>
+                            </NavLink>
                             <NavLink exact activeClassName="is-Active" to="/home/my-videos">
                                 <Icon icon={ic_ondemand_video} size={17} />
                                 <span className="ml-2">My Videos</span>
                             </NavLink>
-                            <NavLink exact activeClassName="is-Active" to="/home/upload">
+                            <NavLink exact activeClassName="is-Active" to="/home/my-audio">
+                                <Icon icon={ic_queue_music} size={17} />
+                                <span className="ml-2">My Audio</span>
+                            </NavLink>
+                            <NavLink exact activeClassName="is-Active" to="/home/upload/video">
                                 <Icon icon={ic_cloud_upload} size={17} />
-                                <span className="ml-2">Upload</span>
+                                <span className="ml-2">Upload Video</span>
+                            </NavLink>
+                            <NavLink exact activeClassName="is-Active" to="/home/upload/audio">
+                                <Icon icon={ic_audiotrack} size={17} />
+                                <span className="ml-2">Upload Audio</span>
                             </NavLink>
                             <button type="button" className="btn" onClick={doLogout}>
                                 <Icon icon={ic_power_settings_new} size={17} />

@@ -3,7 +3,7 @@ import axios from 'axios'
 import api from '../../../utils/url'
 
 
-import Navbar from '../../../components/AdminNavbar/Index'
+import Navbar from '../../../components/UserNavbar/Index'
 import LoadingComponent from '../../../components/Loading/Index'
 import FourOFourComponent from '../../../components/FourOFour/Index'
 import AudioList from '../../../components/AudioList/Index'
