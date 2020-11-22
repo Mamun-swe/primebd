@@ -7,7 +7,9 @@ import CategoryVideos from './categories/Show'
 import Favourite from './favourite/Index'
 import AudioIndex from './Audio/Index'
 import MyVideos from './my-videos/Index'
-import UploadVideo from './upload-video/Index'
+import MyAudios from './myAudio/Index'
+import UploadVideo from './upload/Video'
+import UploadAudio from './upload/Audio'
 import Player from './player/Index'
 
 import ChatMaster from './chat/Master'
@@ -22,7 +24,9 @@ const Master = () => {
                 <Route exact path="/home/favourite" component={Favourite} />
                 <Route exact path="/home/audio" component={AudioIndex} />
                 <Route exact path="/home/my-videos" component={MyVideos} />
+                <Route exact path="/home/my-audio" component={MyAudios} />
                 <Route exact path="/home/upload/video" component={UploadVideo} />
+                <Route exact path="/home/upload/audio" component={UploadAudio} />
                 <Route exact path="/home/video/:id/:name/play" component={Player} />
                 <Route path="/home/chat" component={ChatMaster} />
             </Route>

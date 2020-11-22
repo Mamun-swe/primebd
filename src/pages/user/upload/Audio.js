@@ -6,7 +6,7 @@ import { ic_cloud_upload } from 'react-icons-kit/md'
 
 import Navbar from '../../../components/UserNavbar/Index'
 
-const Index = () => {
+const Audio = () => {
     const { register, handleSubmit, errors } = useForm()
     const [isLoading, setLoading] = useState(false)
     const [progress, setProgress] = useState(10)
@@ -18,18 +18,14 @@ const Index = () => {
 
     return (
         <div className="upload">
-            <Navbar
-                title={'Upload video'}
-                back={true}
-            />
-
+            <Navbar back={true} title={'Upload Audio'} />
             <div className="container-fluid py-3">
                 <div className="row">
                     <div className="col-12 px-5">
                         <div className="card border-0">
                             <div className="card-header p-3 text-center bg-white">
                                 <Icon icon={ic_cloud_upload} size={40} style={{ color: '#F4A261' }} />
-                                <h6 className="mb-0">Upload Your Video</h6>
+                                <h6 className="mb-0">Upload Audio</h6>
                             </div>
                             <div className="card-body py-4 px-0">
                                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -37,14 +33,14 @@ const Index = () => {
                                     <div className="form-group mb-3">
                                         {errors.title && errors.title.message ? (
                                             <small className="text-danger">{errors.title && errors.title.message}</small>
-                                        ) : <small>Video title</small>
+                                        ) : <small>Audio title</small>
                                         }
 
                                         <input
                                             type="text"
                                             name="title"
                                             className="form-control shadow-none rounded-0"
-                                            placeholder="Enter video title"
+                                            placeholder="Enter audio title"
                                             ref={register({
                                                 required: "Title is required",
                                             })}
@@ -71,19 +67,11 @@ const Index = () => {
                                         </select>
                                     </div>
 
-                                    {/* Banner Image */}
+                                    {/* Audio */}
                                     <div className="form-group mb-3">
-                                        <input type="file" id="image" className="inputfile" accept="image/*" />
-                                        <label htmlFor="image">
-                                            <p>Banner Image</p>
-                                        </label>
-                                    </div>
-
-                                    {/* Video */}
-                                    <div className="form-group mb-3">
-                                        <input type="file" id="video" className="inputfile" accept="video/*" />
-                                        <label htmlFor="video">
-                                            <p>Video file</p>
+                                        <input type="file" id="audio" className="inputfile" accept="audio/*" />
+                                        <label htmlFor="audio">
+                                            <p>Audio file</p>
                                         </label>
                                     </div>
 
@@ -111,4 +99,4 @@ const Index = () => {
     );
 };
 
-export default Index;
+export default Audio;
