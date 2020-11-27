@@ -31,7 +31,7 @@ const Create = () => {
             formData.append('image', selectedFile)
 
             console.log(formData)
-            // setLoading(true)
+            setLoading(true)
 
         } catch (error) {
             if (error) {

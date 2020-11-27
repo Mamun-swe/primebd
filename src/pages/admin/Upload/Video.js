@@ -9,11 +9,12 @@ import Navbar from '../../../components/AdminNavbar/Index'
 const Video = () => {
     const { register, handleSubmit, errors } = useForm()
     const [isLoading, setLoading] = useState(false)
-    const [progress, setProgress] = useState(10)
+    const [progress, setProgress] = useState(0)
 
     const onSubmit = async (data) => {
         console.log(data)
         setLoading(true)
+        setProgress(20)
     }
 
     return (

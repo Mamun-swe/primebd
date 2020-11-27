@@ -14,7 +14,7 @@ import FourOFourComponent from '../../../components/FourOFour/Index'
 
 const Index = () => {
     const { id, name } = useParams()
-    const [videoURL, setVideoURL] = useState('https://youtu.be/ndW4jE98MKU')
+    const [videoURL] = useState('https://youtu.be/ndW4jE98MKU')
     const [isLoading, setLoading] = useState(false)
     const [videos, setVideos] = useState([])
 

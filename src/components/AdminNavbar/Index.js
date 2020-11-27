@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../../styles/components/UserNavbar/style.scss'
 import { Icon } from 'react-icons-kit'
-import { Link, NavLink, useHistory } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import {
     ic_menu,
     ic_dashboard,
