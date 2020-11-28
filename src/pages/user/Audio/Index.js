@@ -20,7 +20,7 @@ const Index = () => {
         // Fecth Audios
         const fetchAudios = async () => {
             try {
-                const response = await axios.get(`${api}users`)
+                const response = await axios.get(`${api}posts`)
                 setAudios(response.data)
                 setLoading(false)
             } catch (error) {

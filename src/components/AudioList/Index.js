@@ -9,7 +9,7 @@ const Index = ({ audios, play }) => {
     }
 
     return (
-        <div className="audio-list">
+        <div className="audio-list" style={styles.listContainer}>
             {audios && audios.map((audio, i) =>
                 <div
                     key={i}
@@ -21,7 +21,7 @@ const Index = ({ audios, play }) => {
                         <Icon icon={ic_play_circle_outline} size={20} />
                     </div>
                     <div className="pl-2">
-                        <p style={styles.audioBox.text}>{audio.name}</p>
+                        <p style={styles.audioBox.text}>{audio.name || audio.title} + {i + 1}</p>
                     </div>
                 </div>
             )}
@@ -32,6 +32,9 @@ const Index = ({ audios, play }) => {
 export default Index;
 
 const styles = {
+    listContainer: {
+        marginBottom: 88
+    },
     audioBox: {
         padding: '10px 8px',
         fontSize: 14,
@@ -39,5 +42,5 @@ const styles = {
         text: {
             marginBottom: 0,
         }
-    },
+    }
 }
