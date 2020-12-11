@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
 import '../../../styles/user/upload-video/style.scss'
+import axios from 'axios'
+import url from '../../../utils/url'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Navbar from '../../../components/AdminNavbar/Index'
-import Loading from '../../../components/Loading/Index'
-
+toast.configure()
 const Create = () => {
     const { register, handleSubmit, errors } = useForm()
     const [fileErr, setFileErr] = useState(false)
@@ -19,7 +22,6 @@ const Create = () => {
         }
     }
 
-
     const onSubmit = async (data) => {
         try {
             if (!selectedFile) {
@@ -30,9 +32,16 @@ const Create = () => {
             formData.append('name', data.name)
             formData.append('image', selectedFile)
 
-            console.log(formData)
             setLoading(true)
-
+            const response = await axios.post(`${url}admin/category`, formData)
+            if (response.data.status === true) {
+                toast.success(response.data.message)
+                setLoading(false)
+            }
+            if (response.data.status === false) {
+                toast.warn(response.data.message)
+                setLoading(false)
+            }
         } catch (error) {
             if (error) {
                 console.log(error.response)
@@ -42,7 +51,6 @@ const Create = () => {
     return (
         <div className="category-create upload">
             <Navbar back={true} title={'Create Category'} />
-            {isLoading ? <Loading /> : null}
 
             <div className="container-fluid py-3">
                 <div className="row">
@@ -83,7 +91,13 @@ const Create = () => {
                                 </label>
                             </div>
 
-                            <button type="submit" className="btn btn-block btn-primary rounded-0 text-white shadow-none">Create</button>
+                            <button
+                                type="submit"
+                                className="btn btn-block btn-primary rounded-0 text-white shadow-none"
+                                disabled={isLoading}
+                            >
+                                {isLoading ? <span>Creating...</span> : <span>Create</span>}
+                            </button>
 
                         </form>
                     </div>

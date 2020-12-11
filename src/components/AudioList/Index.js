@@ -15,13 +15,13 @@ const Index = ({ audios, play }) => {
                     key={i}
                     style={styles.audioBox}
                     className="audio d-flex"
-                    onClick={() => playSong(audio)}
+                    onClick={() => playSong(audio.audio)}
                 >
                     <div>
                         <Icon icon={ic_play_circle_outline} size={20} />
                     </div>
                     <div className="pl-2">
-                        <p style={styles.audioBox.text}>{audio.name || audio.title} + {i + 1}</p>
+                        <p style={styles.audioBox.text}>{audio.title}</p>
                     </div>
                 </div>
             )}

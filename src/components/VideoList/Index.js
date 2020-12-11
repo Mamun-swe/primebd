@@ -4,12 +4,10 @@ import { ic_play_circle_outline } from 'react-icons-kit/md'
 import { Link } from 'react-router-dom'
 import '../../App.scss'
 
-import Banner from '../../assets/movie.jpg'
-
 const Index = ({ videos }) => {
 
-    const sliceName = name => {
-        return name.slice(0, 15)
+    const sliceName = title => {
+        return title.slice(0, 15)
     }
 
     return (
@@ -17,10 +15,10 @@ const Index = ({ videos }) => {
             {videos && videos.map((video, i) =>
                 <div className="card content-card" key={i}>
                     <Link
-                        to={`/home/video/${video.id}/${video.name}/play`}
+                        to={`/home/video/${video.id}/${video.title}/play`}
                     >
                         <div className="card-body shadow-sm">
-                            <img src={Banner} className="img-fluid" alt="..." />
+                            <img src={video.banner} className="img-fluid" alt="..." />
                             {/* Overlay */}
                             <div className="overlay">
                                 <div className="flex-center flex-column">
@@ -28,7 +26,7 @@ const Index = ({ videos }) => {
                                 </div>
                                 {/* Content */}
                                 <div className="content">
-                                    <p>{sliceName(video.name)}</p>
+                                    <p>{sliceName(video.title)}</p>
                                 </div>
                             </div>
                         </div>

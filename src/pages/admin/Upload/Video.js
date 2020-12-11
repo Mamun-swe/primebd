@@ -1,20 +1,94 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../../styles/user/upload-video/style.scss'
 import Icon from 'react-icons-kit'
 import { useForm } from "react-hook-form"
 import { ic_cloud_upload } from 'react-icons-kit/md'
+import axios from 'axios'
+import url from '../../../utils/url'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Navbar from '../../../components/AdminNavbar/Index'
 
+toast.configure()
 const Video = () => {
     const { register, handleSubmit, errors } = useForm()
     const [isLoading, setLoading] = useState(false)
-    const [progress, setProgress] = useState(0)
+    const [selectedBanner, setSelectedBanner] = useState(null)
+    const [selectedVideo, setSelectedVideo] = useState(null)
+    const [categories, setCategories] = useState([])
+    const [fileErr, setFileErr] = useState({ banner: null, video: null })
+    const [bannerPrev, setBannerPrev] = useState(null)
+    const [videoPrev, setVideoPrev] = useState(null)
+
+    useEffect(() => {
+        // Fetch Categories
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get(`${url}admin/category`)
+                setCategories(response.data)
+                setLoading(false)
+            } catch (error) {
+                if (error) {
+                    console.log(error.response)
+                    setLoading(false)
+                }
+            }
+        }
+
+        fetchCategories()
+    }, [])
+
+    // Banner onChange
+    const bannerChangeHandeller = event => {
+        let file = event.target.files[0]
+        if (file) {
+            setBannerPrev(URL.createObjectURL(file))
+            setSelectedBanner(file)
+        }
+    }
+
+    // Video onChange
+    const videoChangeHandeller = event => {
+        let file = event.target.files[0]
+        if (file && file.size > 7000000) {
+            setVideoPrev(null)
+            setSelectedVideo(null)
+            setFileErr({ video: 'Select less than 7 MB file' })
+        } else {
+            setVideoPrev(URL.createObjectURL(file))
+            setSelectedVideo(file)
+        }
+    }
 
     const onSubmit = async (data) => {
-        console.log(data)
-        setLoading(true)
-        setProgress(20)
+        try {
+            if (!selectedBanner) {
+                return setFileErr({ banner: 'Banner is required' })
+            }
+
+            if (!selectedVideo) {
+                return setFileErr({ video: 'Video is required' })
+            }
+
+            setLoading(true)
+            let formData = new FormData()
+            formData.append('title', data.title)
+            formData.append('category_id', data.category)
+            formData.append('banner', selectedBanner)
+            formData.append('video', selectedVideo)
+
+            const response = await axios.post(`${url}admin/video`, formData)
+            if (response.status === 200) {
+                setLoading(false)
+                toast.success(response.data.message)
+            }
+        } catch (error) {
+            if (error) {
+                setLoading(false)
+                console.log(error.response)
+            }
+        }
     }
 
     return (
@@ -62,15 +136,27 @@ const Video = () => {
                                                 required: "Category is required",
                                             })}
                                         >
-                                            <option>abc</option>
-                                            <option>abc</option>
-                                            <option>abc</option>
+                                            {categories && categories.map((category, i) =>
+                                                <option value={category.id} key={i}>{category.name}</option>
+                                            )}
                                         </select>
                                     </div>
 
                                     {/* Banner Image */}
                                     <div className="form-group mb-3">
-                                        <input type="file" id="image" className="inputfile" accept="image/*" />
+                                        {fileErr && fileErr.banner ? (
+                                            <small className="text-danger">{fileErr.banner}</small>
+                                        ) : null}
+
+                                        {bannerPrev ? <img src={bannerPrev} className="img-fluid" alt="..." /> : null}
+
+                                        <input
+                                            type="file"
+                                            id="image"
+                                            className="inputfile"
+                                            accept="image/*"
+                                            onChange={bannerChangeHandeller}
+                                        />
                                         <label htmlFor="image">
                                             <p>Banner Image</p>
                                         </label>
@@ -78,7 +164,23 @@ const Video = () => {
 
                                     {/* Video */}
                                     <div className="form-group mb-3">
-                                        <input type="file" id="video" className="inputfile" accept="video/*" />
+                                        {fileErr && fileErr.video ? (
+                                            <small className="text-danger">{fileErr.video}</small>
+                                        ) : null}
+
+                                        {videoPrev ?
+                                            <div className="embed-responsive embed-responsive-16by9 mb-2">
+                                                <iframe className="embed-responsive-item" src={videoPrev} allowFullScreen></iframe>
+                                            </div>
+                                            : null}
+
+                                        <input
+                                            type="file"
+                                            id="video"
+                                            className="inputfile"
+                                            accept="video/*"
+                                            onChange={videoChangeHandeller}
+                                        />
                                         <label htmlFor="video">
                                             <p>Video file</p>
                                         </label>
@@ -100,7 +202,6 @@ const Video = () => {
                     <div className="flex-center flex-column">
                         <h6>Uploading...</h6>
                         <p>Don't leave before complete.</p>
-                        <h1 onClick={() => setLoading(false)}>{progress}%</h1>
                     </div>
                 </div>
                 : null}

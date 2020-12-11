@@ -18,11 +18,12 @@ const Show = () => {
         const fetchVideos = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`${url}users`)
-                setVideos(response.data)
+                const response = await axios.get(`${url}user/category/${id}/videos`)
+                setVideos(response.data.videos)
                 setLoading(false)
             } catch (error) {
                 if (error) {
+                    setLoading(false)
                     console.log(error)
                 }
             }

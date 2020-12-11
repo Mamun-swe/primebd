@@ -9,8 +9,8 @@ const Index = ({ song }) => {
                 style={styles.player}
                 autoPlay
                 src={song}
-                onPlay={e => console.log("onPlay")}
-                onVolumeChange={e => console.log(e.target.volume)}
+                // onPlay={e => console.log("onPlay")}
+                // onVolumeChange={e => console.log(e.target.volume)}
             />
         </div>
     );

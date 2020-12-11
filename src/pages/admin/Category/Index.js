@@ -4,13 +4,11 @@ import axios from 'axios'
 import api from '../../../utils/url'
 import { Link } from 'react-router-dom'
 import Icon from 'react-icons-kit'
-import { ic_add } from 'react-icons-kit/md'
+import { ic_add, ic_mode_edit } from 'react-icons-kit/md'
 
 import Navbar from '../../../components/AdminNavbar/Index'
 import LoadingComponent from '../../../components/Loading/Index'
 import FourOFourComponent from '../../../components/FourOFour/Index'
-
-import demoImg from '../../../assets/movie.jpg'
 
 const Index = () => {
     const [isLoading, setLoading] = useState(true)
@@ -20,7 +18,7 @@ const Index = () => {
         // Fecth Categories
         const fetchCategories = async () => {
             try {
-                const response = await axios.get(`${api}users`)
+                const response = await axios.get(`${api}admin/category`)
                 setCategories(response.data)
                 setLoading(false)
             } catch (error) {
@@ -46,10 +44,20 @@ const Index = () => {
                         categories && categories.map((category, i) =>
                             <div className="category d-flex" key={i}>
                                 <div>
-                                    <img src={demoImg} className="img-fluid" alt="..." />
+                                    <img src={category.image} className="img-fluid" alt="..." />
                                 </div>
                                 <div className="pl-2">
                                     <p>{category.name}</p>
+                                </div>
+                                <div className="ml-auto">
+                                    <Link
+                                        to={`/admin/category/${category.id}/show`}
+                                        type="button"
+                                        className="btn btn-sm btn-light rounded-circle shadow-none"
+                                        style={styles.smBtn}
+                                    >
+                                        <Icon icon={ic_mode_edit} size={18} />
+                                    </Link>
                                 </div>
                             </div>
                         )
@@ -73,3 +81,9 @@ const Index = () => {
 };
 
 export default Index;
+
+const styles = {
+    smBtn: {
+        padding: '5px 7px'
+    }
+}

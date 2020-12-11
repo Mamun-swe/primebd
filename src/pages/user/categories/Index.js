@@ -16,12 +16,12 @@ const Index = () => {
         const fetchCategories = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`${url}users`)
+                const response = await axios.get(`${url}user/category`)
                 setCategories(response.data)
                 setLoading(false)
             } catch (error) {
                 if (error) {
-                    console.log(error)
+                    setLoading(false)
                 }
             }
         }
@@ -40,7 +40,7 @@ const Index = () => {
             {isLoading ? <LoadingComponent /> :
                 <div className="container">
                     <div className="row">
-                        {categories.length > 0 ?
+                        {categories && categories.length > 0 ?
                             < div className="col-12 px-1">
                                 <CategoryList categories={categories} />
                             </div>

@@ -24,9 +24,8 @@ const Index = () => {
                 setAudios(response.data)
                 setLoading(false)
             } catch (error) {
+                setLoading(false)
                 if (error && error.response.status === 404) {
-                    console.log(error.response)
-                    setLoading(false)
                     setFourOFour(true)
                 }
             }

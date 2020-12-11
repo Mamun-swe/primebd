@@ -16,12 +16,13 @@ const Index = () => {
         const fetchVideos = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`${url}users`)
-                setVideos(response.data)
+                const response = await axios.get(`${url}admin/video`)
+                setVideos(response.data.videos)
                 setLoading(false)
             } catch (error) {
                 if (error) {
-                    console.log(error)
+                    setLoading(false)
+                    console.log(error.response)
                 }
             }
         }
@@ -35,7 +36,7 @@ const Index = () => {
             {isLoading ? <LoadingComponent /> :
                 <div className="container">
                     <div className="row">
-                        {videos.length > 0 ?
+                        {videos && videos.length > 0 ?
                             < div className="col-12 px-1">
                                 <VideoList videos={videos} />
                             </div>

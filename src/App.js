@@ -12,6 +12,8 @@ import Reset from './pages/auth/Reset';
 import UserMaster from './pages/user/Master';
 import AdminMaster from './pages/admin/Master';
 
+import SocketPage from './pages/socket/Index';
+
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
             <Route exact path="/" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/reset" component={Reset} />
+            <Route exact path="/socket" component={SocketPage} />
 
             {/* <PrivateRoute> */}
               <Route path="/home" component={UserMaster} />

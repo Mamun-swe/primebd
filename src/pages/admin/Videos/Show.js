@@ -9,37 +9,37 @@ import LoadingComponent from '../../../components/Loading/Index'
 import FourOFourComponent from '../../../components/FourOFour/Index'
 
 const Show = () => {
-    const { id, name } = useParams()
+    const { id, title } = useParams()
     const [video, setVideo] = useState({})
     const [isLoading, setLoading] = useState(false)
     const [fourOfour, setFourOFour] = useState(false)
 
     useEffect(() => {
         fetchVideo()
-    }, [id, name])
+    }, [id, title])
 
     // Fetch Video
     const fetchVideo = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`${url}posts/${id}`)
+            const response = await axios.get(`${url}admin/video/${id}`)
             if (response.status === 200) {
                 setLoading(false)
-                setVideo(response.data)
+                setVideo(response.data.video)
             }
         } catch (error) {
+            setLoading(false)
             if (error && error.response.status === 404) {
                 setLoading(false)
                 setFourOFour(true)
             }
-            console.log(error.response)
         }
     }
 
     if (fourOfour) {
         return (
             <div>
-                <Navbar back={true} title={name} />
+                <Navbar back={true} title={title} />
                 <FourOFourComponent />
             </div>
         )
@@ -48,7 +48,7 @@ const Show = () => {
     return (
         <div>
             {isLoading ? <LoadingComponent /> : null}
-            <Navbar back={true} title={name} />
+            <Navbar back={true} title={title} />
 
             <div className="container">
                 <div className="row">
@@ -56,7 +56,7 @@ const Show = () => {
                     {/* Player */}
                     <div className="col-12 p-0">
                         <ReactPlayer
-                            url={'https://youtu.be/ndW4jE98MKU'}
+                            url={video.video}
                             width="100%"
                             height="100%"
                             controls={true}
@@ -65,9 +65,6 @@ const Show = () => {
                     <div className="col-12 py-3">
                         <p className="mb-0" style={{ fontSize: 14 }}>
                             <span className="font-weight-bold text-capitalize">Title: </span>{video.title}
-                        </p>
-                        <p className="mb-0" style={{ fontSize: 14 }}>
-                            <span className="font-weight-bold text-capitalize">Author: </span>lorem ipsum
                         </p>
                     </div>
                     <div className="col-12 text-center">

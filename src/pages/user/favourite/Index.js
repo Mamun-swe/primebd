@@ -21,7 +21,7 @@ const Index = () => {
                 setLoading(false)
             } catch (error) {
                 if (error) {
-                    console.log(error)
+                    setLoading(false)
                 }
             }
         }
@@ -39,7 +39,7 @@ const Index = () => {
             {isLoading ? <LoadingComponent /> :
                 <div className="container">
                     <div className="row">
-                        {videos.length > 0 ?
+                        {videos && videos.length > 0 ?
                             < div className="col-12 px-1">
                                 <VideoList videos={videos} />
                             </div>

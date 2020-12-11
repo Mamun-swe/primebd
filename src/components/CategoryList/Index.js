@@ -2,8 +2,6 @@ import React from 'react'
 import '../../App.scss'
 import { Link } from 'react-router-dom'
 
-import Banner from '../../assets/movie.jpg'
-
 const Index = ({ categories }) => {
     const sliceName = name => {
         return name.slice(0, 10)
@@ -17,7 +15,7 @@ const Index = ({ categories }) => {
                         to={`/home/category/${category.id}/${category.name}/videos`}
                     >
                         <div className="card-body shadow-sm">
-                            <img src={Banner} className="img-fluid" alt="..." />
+                            <img src={category.image} className="img-fluid" alt="..." />
                             {/* Overlay */}
                             <div className="overlay">
                                 <div className="flex-center flex-column">
