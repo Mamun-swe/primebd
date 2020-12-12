@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Audio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
-use App\Models\Audio;
 use Validator;
 
 class AudioController extends Controller
@@ -60,6 +60,7 @@ class AudioController extends Controller
         }
 
         $audio = new Audio();
+        $audio->user_id = $request->user_id ? $request->user_id : 1;
         $audio->category_id = $request->category_id;
         $audio->title = $request->title;
 

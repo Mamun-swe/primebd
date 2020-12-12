@@ -52,6 +52,7 @@ class VideoController extends Controller
         }
 
         $video = new Video();
+        $video->user_id = $request->user_id ? $request->user_id : 1;
         $video->category_id = $request->category_id;
         $video->title = $request->title;
         if ($request->file('banner')) {

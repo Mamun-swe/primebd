@@ -25,6 +25,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/home', 'Api\User\HomeController@index');
     Route::get('/category', 'Api\User\CategoryController@index');
     Route::get('/category/{id}/videos', 'Api\User\CategoryController@videos');
+    Route::get('/video/{id}', 'Api\User\HomeController@showVideo');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -19,16 +19,17 @@ const Index = () => {
     const [videos, setVideos] = useState([])
 
     useEffect(() => {
+        console.log(id + ' ' + name);
         // Fetch Related videos
         const fetchRelatedVideos = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`${url}users`)
+                const response = await axios.get(`https://jsonplaceholder.typicode.com/users`)
                 setVideos(response.data)
                 setLoading(false)
             } catch (error) {
                 if (error) {
-                    console.log(error)
+                    setLoading(false)
                 }
             }
         }

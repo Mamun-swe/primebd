@@ -31,4 +31,29 @@ class HomeController extends Controller
             'videos' => $resultsArray,
         ], 200);
     }
+
+    // Show individual video
+    public function showVideo($id)
+    {
+        $data = Video::where('id', $id)->first();
+
+        if (!$data) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Video not found',
+            ], 404);
+        }
+
+        $video = (object) [
+            'id' => $data->id,
+            'title' => $data->title,
+            'banner' => $this->rootUrl() . '' . '/banners/' . $data->banner,
+            'video' => $this->rootUrl() . '/videos/' . $data->video,
+        ];
+
+        return response()->json([
+            'status' => true,
+            'video' => $video,
+        ], 200);
+    }
 }
