@@ -14,11 +14,18 @@ const Index = () => {
     const [audios, setAudios] = useState([])
     const [song, setSong] = useState()
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
         // Fecth Audios
         const fetchAudios = async () => {
             try {
-                const response = await axios.get(`${api}admin/audio`)
+                const response = await axios.get(`${api}admin/audio`, header)
                 setAudios(response.data.audios)
                 setLoading(false)
             } catch (error) {

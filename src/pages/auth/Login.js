@@ -1,22 +1,54 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../styles/auth/style.scss'
-import { useForm } from "react-hook-form"
+import { useForm } from 'react-hook-form'
 import { Link, useHistory } from 'react-router-dom'
+import Axios from 'axios'
+import api from '../../utils/url'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Logo from '../../assets/static/logo.png'
 
+toast.configure()
 const Login = () => {
     const history = useHistory()
     const { register, handleSubmit, errors } = useForm()
+    const [isLoading, setLoading] = useState(false)
 
-    const onSubmit = async (data) => {
-        // localStorage.setItem('token', data.email)
-        if (data.email === 'admin@gmail.com') {
-            history.push('/admin')
-        } else {
-            history.push('/home')
+    // Check Token
+    const checkToken = (token) => {
+        localStorage.setItem('token', token)
+        const role = token.split('.')[0]
+        if (role === 'admin') {
+            return history.push('/admin')
         }
 
+        if (role === 'user') {
+            return history.push('/home')
+        }
+    }
+
+    // Check if logged in 
+    if (localStorage.getItem('token')) {
+        checkToken(localStorage.getItem('token'))
+    }
+
+    const onSubmit = async (data) => {
+        try {
+            setLoading(true)
+            const response = await Axios.post(`${api}login`, data)
+            // console.log(response)
+            if (response.status === 200) {
+                setLoading(false)
+                localStorage.setItem('id', response.data.id)
+                checkToken(response.data.token)
+            }
+        } catch (error) {
+            if (error) {
+                setLoading(false)
+                toast.warn(error.response.data.message)
+            }
+        }
     }
 
     return (
@@ -69,7 +101,9 @@ const Login = () => {
                                 />
                             </div>
 
-                            <button type="submit" className="btn btn-info shadow-none text-white btn-block">Login</button>
+                            <button type="submit" className="btn btn-info shadow-none text-white btn-block" disabled={isLoading}>
+                                {isLoading ? <span>Logging...</span> : <span>Login</span>}
+                            </button>
                             <br />
 
                             <div className="text-right">

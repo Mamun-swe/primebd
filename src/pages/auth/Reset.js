@@ -2,10 +2,29 @@ import React from 'react'
 import '../../styles/auth/style.scss'
 import { useForm } from "react-hook-form"
 import Logo from '../../assets/static/logo.png'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 const Reset = () => {
+    const history = useHistory()
     const { register, handleSubmit, errors } = useForm()
+
+    // Check Token
+    const checkToken = (token) => {
+        localStorage.setItem('token', token)
+        const role = token.split('.')[0]
+        if (role === 'admin') {
+            return history.push('/admin')
+        }
+
+        if (role === 'user') {
+            return history.push('/home')
+        }
+    }
+
+    // Check if logged in 
+    if (localStorage.getItem('token')) {
+        checkToken(localStorage.getItem('token'))
+    }
 
     const onSubmit = async (data) => {
         console.log(data)

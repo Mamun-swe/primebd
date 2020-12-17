@@ -21,11 +21,18 @@ const Video = () => {
     const [bannerPrev, setBannerPrev] = useState(null)
     const [videoPrev, setVideoPrev] = useState(null)
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
         // Fetch Categories
         const fetchCategories = async () => {
             try {
-                const response = await axios.get(`${url}admin/category`)
+                const response = await axios.get(`${url}admin/category`, header)
                 setCategories(response.data)
                 setLoading(false)
             } catch (error) {
@@ -73,12 +80,13 @@ const Video = () => {
 
             setLoading(true)
             let formData = new FormData()
+            formData.append('user_id', localStorage.getItem('id'))
             formData.append('title', data.title)
             formData.append('category_id', data.category)
             formData.append('banner', selectedBanner)
             formData.append('video', selectedVideo)
 
-            const response = await axios.post(`${url}admin/video`, formData)
+            const response = await axios.post(`${url}admin/video`, formData, header)
             if (response.status === 200) {
                 setLoading(false)
                 toast.success(response.data.message)
@@ -170,7 +178,7 @@ const Video = () => {
 
                                         {videoPrev ?
                                             <div className="embed-responsive embed-responsive-16by9 mb-2">
-                                                <iframe className="embed-responsive-item" src={videoPrev} allowFullScreen></iframe>
+                                                <iframe className="embed-responsive-item" title={videoPrev} src={videoPrev} allowFullScreen></iframe>
                                             </div>
                                             : null}
 

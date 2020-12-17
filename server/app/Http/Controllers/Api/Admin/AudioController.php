@@ -60,7 +60,7 @@ class AudioController extends Controller
         }
 
         $audio = new Audio();
-        $audio->user_id = $request->user_id ? $request->user_id : 1;
+        $audio->user_id = $request->user_id;
         $audio->category_id = $request->category_id;
         $audio->title = $request->title;
 

@@ -8,20 +8,25 @@ import FourOFourComponent from '../../../components/FourOFour/Index'
 import AudioList from '../../../components/AudioList/Index'
 import Player from '../../../components/AudioPayler/Index'
 
-import testSong from '../../../assets/audio.mp3'
-
 const Index = () => {
     const [isLoading, setLoading] = useState(true)
     const [fourOFour, setFourOFour] = useState(false)
     const [audios, setAudios] = useState([])
     const [song, setSong] = useState()
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
         // Fecth Audios
         const fetchAudios = async () => {
             try {
-                const response = await axios.get(`${api}posts`)
-                setAudios(response.data)
+                const response = await axios.get(`${api}user/audio`, header)
+                setAudios(response.data.audios)
                 setLoading(false)
             } catch (error) {
                 if (error && error.response.status === 404) {
@@ -37,8 +42,7 @@ const Index = () => {
 
     // Play Audio
     const playAudio = data => {
-        console.log("console from parent Audio " + data.id)
-        setSong(testSong)
+        setSong(data)
     }
 
     return (

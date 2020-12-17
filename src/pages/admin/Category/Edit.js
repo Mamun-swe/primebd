@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import url from '../../../utils/url';
-import '../../../styles/user/upload-video/style.scss';
-import { useForm } from "react-hook-form";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import url from '../../../utils/url'
+import '../../../styles/user/upload-video/style.scss'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Navbar from '../../../components/AdminNavbar/Index'
 import LoadingComponent from '../../../components/Loading/Index'
@@ -19,6 +19,13 @@ const Edit = () => {
     const [selectedFile, setSelectedFile] = useState(null)
     const [preview, setPreview] = useState()
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
         fetchCategory()
     }, [id])
@@ -27,7 +34,7 @@ const Edit = () => {
     const fetchCategory = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`${url}admin/category/${id}`)
+            const response = await axios.get(`${url}admin/category/${id}`, header)
             if (response.status === 200) {
                 setLoading(false)
                 setCategory(response.data)
@@ -57,7 +64,7 @@ const Edit = () => {
             formData.append('_method', 'PUT')
 
             setUpdateLoading(true)
-            const response = await axios.post(`${url}admin/category/${category.id}`, formData)
+            const response = await axios.post(`${url}admin/category/${category.id}`, formData, header)
             if (response.data.status === true) {
                 toast.success(response.data.message)
                 setUpdateLoading(false)

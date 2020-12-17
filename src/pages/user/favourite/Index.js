@@ -10,18 +10,27 @@ import FourOFourComponent from '../../../components/FourOFour/Index'
 const Index = () => {
     const [isLoading, setLoading] = useState(false)
     const [videos, setVideos] = useState([])
+    const id = localStorage.getItem('id')
+
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
 
     useEffect(() => {
         // Fetch Random videos
         const fetchRandomVideos = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`${url}users`)
-                setVideos(response.data)
+                const response = await axios.get(`${url}user/video/favourite/${id}`, header)
+                setVideos(response.data.videos)
                 setLoading(false)
             } catch (error) {
                 if (error) {
                     setLoading(false)
+                    console.log(error.response)
                 }
             }
         }

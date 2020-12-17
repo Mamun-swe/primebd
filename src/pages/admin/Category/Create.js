@@ -14,6 +14,13 @@ const Create = () => {
     const [isLoading, setLoading] = useState(false)
     const [selectedFile, setSelectedFile] = useState(null)
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     // Image onChange
     const imageChangeHandeller = event => {
         let file = event.target.files[0]
@@ -33,7 +40,7 @@ const Create = () => {
             formData.append('image', selectedFile)
 
             setLoading(true)
-            const response = await axios.post(`${url}admin/category`, formData)
+            const response = await axios.post(`${url}admin/category`, formData, header)
             if (response.data.status === true) {
                 toast.success(response.data.message)
                 setLoading(false)

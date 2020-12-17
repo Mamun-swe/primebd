@@ -20,6 +20,7 @@ class CreateVideosTable extends Migration
             $table->string('title');
             $table->string('banner');
             $table->string('video');
+            $table->boolean('banned')->default(false);
             $table->timestamps();
         });
     }

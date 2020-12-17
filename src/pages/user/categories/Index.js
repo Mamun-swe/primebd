@@ -11,12 +11,19 @@ const Index = () => {
     const [isLoading, setLoading] = useState(false)
     const [categories, setCategories] = useState([])
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
         // Fetch Categories
         const fetchCategories = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`${url}user/category`)
+                const response = await axios.get(`${url}user/category`, header)
                 setCategories(response.data)
                 setLoading(false)
             } catch (error) {

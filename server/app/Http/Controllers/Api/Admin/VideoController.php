@@ -20,7 +20,7 @@ class VideoController extends Controller
     public function index()
     {
         $resultsArray = array();
-        $results = Video::select('id', 'title', 'banner')->get();
+        $results = Video::where('banned', 0)->select('id', 'title', 'banner')->get();
         foreach ($results as $result) {
             $resultsArray[] = array(
                 "id" => $result->id,
@@ -52,7 +52,7 @@ class VideoController extends Controller
         }
 
         $video = new Video();
-        $video->user_id = $request->user_id ? $request->user_id : 1;
+        $video->user_id = $request->user_id;
         $video->category_id = $request->category_id;
         $video->title = $request->title;
         if ($request->file('banner')) {

@@ -18,11 +18,18 @@ const Audio = () => {
     const [selectedAudio, setSelectedAudio] = useState(null)
     const [fileErr, setFileErr] = useState({ audio: null })
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
         // Fetch Categories
         const fetchCategories = async () => {
             try {
-                const response = await axios.get(`${url}admin/category`)
+                const response = await axios.get(`${url}admin/category`, header)
                 setCategories(response.data)
                 setLoading(false)
             } catch (error) {
@@ -55,11 +62,12 @@ const Audio = () => {
 
             setLoading(true)
             let formData = new FormData()
+            formData.append('user_id', localStorage.getItem('id'))
             formData.append('title', data.title)
             formData.append('category_id', data.category)
             formData.append('audio', selectedAudio)
 
-            const response = await axios.post(`${url}admin/audio`, formData)
+            const response = await axios.post(`${url}admin/audio`, formData, header)
             if (response.status === 200) {
                 setLoading(false)
                 toast.success(response.data.message)

@@ -3,29 +3,54 @@ import '../../../styles/user/player/style.scss'
 import ReactPlayer from 'react-player'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import url from '../../../utils/url'
+import api from '../../../utils/url'
 import Icon from 'react-icons-kit'
 import { ic_favorite_border } from 'react-icons-kit/md'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Navbar from '../../../components/UserNavbar/Index'
 import VideoList from '../../../components/VideoList/Index'
 import LoadingComponent from '../../../components/Loading/Index'
 import FourOFourComponent from '../../../components/FourOFour/Index'
 
+import LoadingGif from '../../../assets/static/loading.gif'
+
+toast.configure()
 const Index = () => {
     const { id, name } = useParams()
-    const [videoURL] = useState('https://youtu.be/ndW4jE98MKU')
-    const [isLoading, setLoading] = useState(false)
+    const [show, setShow] = useState(false)
+    const [videoURL, setVideoURL] = useState(null)
+    const [isLoading, setLoading] = useState(true)
     const [videos, setVideos] = useState([])
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
-        console.log(id + ' ' + name);
+
+        // Show Video
+        const showVideo = async () => {
+            try {
+                const response = await axios.get(`${api}user/video/${id}/show`, header)
+                setVideoURL(response.data.video.video)
+                setLoading(false)
+            } catch (error) {
+                if (error) {
+                    console.log(error.response)
+                }
+            }
+        }
+
         // Fetch Related videos
         const fetchRelatedVideos = async () => {
             try {
-                setLoading(true)
-                const response = await axios.get(`https://jsonplaceholder.typicode.com/users`)
-                setVideos(response.data)
+                const response = await axios.get(`${api}user/home`, header)
+                setVideos(response.data.videos)
                 setLoading(false)
             } catch (error) {
                 if (error) {
@@ -34,16 +59,43 @@ const Index = () => {
             }
         }
 
+        showVideo()
         fetchRelatedVideos()
     }, [id, name])
 
     const sliceName = name => {
-        return name.slice(0, 15)
+        if (name) {
+            return name.slice(0, 15)
+        }
+        return false
     }
 
-    // Add Favourite List
-    const addFavourite = video => {
-        alert(video)
+    // Add to Favourite List
+    const addFavourite = async (id) => {
+        const data = {
+            uId: localStorage.getItem('id'),
+            videoId: id
+        }
+
+        try {
+            setShow(true)
+            const response = await axios.post(`${api}user/video/favourite`, data, header)
+
+            if (response.status === 200) {
+                setShow(false)
+                toast.success(response.data.message)
+            }
+
+            if (response.status === 208) {
+                setShow(false)
+                toast.info(response.data.message)
+            }
+        } catch (error) {
+            if (error) {
+                setShow(false)
+                toast.warn(error.response.data.message)
+            }
+        }
     }
 
     return (
@@ -72,8 +124,11 @@ const Index = () => {
                                         type="button"
                                         className="btn shadow-none p-0"
                                         onClick={() => addFavourite(id)}
+                                        disabled={show}
                                     >
-                                        <Icon icon={ic_favorite_border} size={27} />
+                                        {show ?
+                                            <img src={LoadingGif} alt="..." style={{ width: 27, height: 27 }} />
+                                            : <Icon icon={ic_favorite_border} size={27} />}
                                     </button>
                                 </div>
                             </div>

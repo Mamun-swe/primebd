@@ -13,12 +13,19 @@ const Show = () => {
     const [isLoading, setLoading] = useState(false)
     const [videos, setVideos] = useState([])
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
         // Fetch category videos
         const fetchVideos = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`${url}user/category/${id}/videos`)
+                const response = await axios.get(`${url}user/category/${id}/videos`, header)
                 setVideos(response.data.videos)
                 setLoading(false)
             } catch (error) {
@@ -34,7 +41,10 @@ const Show = () => {
 
     // Slice name
     const sliceName = name => {
-        return name.slice(0, 15)
+        if (name) {
+            return name.slice(0, 15)
+        }
+        return false
     }
 
     return (

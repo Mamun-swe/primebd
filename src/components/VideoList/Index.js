@@ -7,7 +7,10 @@ import '../../App.scss'
 const Index = ({ videos }) => {
 
     const sliceName = title => {
-        return title.slice(0, 15)
+        if (title) {
+            return title.slice(0, 15)
+        }
+        return false
     }
 
     return (

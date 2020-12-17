@@ -13,19 +13,41 @@ import {
     ic_audiotrack,
     ic_queue_music
 } from 'react-icons-kit/md'
+import axios from 'axios'
+import api from '../../utils/url'
 
 
 const Index = ({ title, back }) => {
     const history = useHistory()
     const [show, setShow] = useState(false)
+    const [isLoading, setLoading] = useState(false)
+
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
 
     const goBackPage = () => {
         history.goBack()
     }
 
-    const doLogout = () => {
-        localStorage.clear()
-        history.push('/')
+    const doLogout = async () => {
+        try {
+            setLoading(true)
+            const response = await axios.get(`${api}logout`, header)
+            if (response.status === 200) {
+                localStorage.clear()
+                history.push('/')
+                setLoading(false)
+            }
+        } catch (error) {
+            if (error) {
+                setLoading(false)
+                console.log(error.response)
+            }
+        }
     }
 
     return (
@@ -98,9 +120,9 @@ const Index = ({ title, back }) => {
                                 <Icon icon={ic_audiotrack} size={17} />
                                 <span className="ml-2">Upload Audio</span>
                             </NavLink>
-                            <button type="button" className="btn" onClick={doLogout}>
+                            <button type="button" className="btn" onClick={doLogout} disabled={isLoading}>
                                 <Icon icon={ic_power_settings_new} size={17} />
-                                <span className="ml-2">Logout</span>
+                                {isLoading ? <span className="ml-2">Logging out...</span> : <span className="ml-2">Logout</span>}
                             </button>
                         </li>
                     </ul>

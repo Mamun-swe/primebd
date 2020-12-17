@@ -8,11 +8,18 @@ const Index = () => {
     const [isLoading, setLoading] = useState(true)
     const [data, setData] = useState({})
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
         // Dashboard data
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${api}admin/dashboard`)
+                const response = await axios.get(`${api}admin/dashboard`, header)
                 if (response.status === 200) {
                     setData(response.data)
                     setLoading(false)
@@ -20,12 +27,13 @@ const Index = () => {
             } catch (error) {
                 if (error) {
                     setLoading(false)
+                    console.log(error.response)
                 }
             }
         }
 
         fetchData()
-    }, [])
+    }, [header])
 
     return (
         <div className="dashboard">

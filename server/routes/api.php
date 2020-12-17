@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Auth API's
@@ -11,7 +10,7 @@ Route::get('/logout', 'Api\Auth\AuthController@Logout');
 Route::post('/reset', 'Api\Auth\AuthController@Reset');
 
 // Admin API's
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/dashboard', 'Api\Admin\DashboardController@index');
     Route::apiResource('/category', 'Api\Admin\CategoryController');
     Route::get('/video', 'Api\Admin\VideoController@index');
@@ -21,13 +20,18 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 // User API's
-Route::group(['prefix' => 'user'], function () {
+Route::group(['prefix' => 'user', 'middleware' => ['user']], function () {
     Route::get('/home', 'Api\User\HomeController@index');
     Route::get('/category', 'Api\User\CategoryController@index');
     Route::get('/category/{id}/videos', 'Api\User\CategoryController@videos');
-    Route::get('/video/{id}', 'Api\User\HomeController@showVideo');
-});
+    Route::get('/video/{id}/show', 'Api\User\HomeController@showVideo');
+    Route::get('/audio', 'Api\User\HomeController@audioIndex');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::get('/my/videos/{id}', 'Api\User\HomeController@myVideos');
+    Route::get('/my/audios/{id}', 'Api\User\HomeController@myAudios');
+    Route::get('/categories', 'Api\User\HomeController@categoryIndex');
+    Route::post('/video/store', 'Api\User\HomeController@storeVideo');
+    Route::post('/audio/store', 'Api\User\HomeController@storeAudio');
+    Route::post('/video/favourite', 'Api\User\HomeController@makeFavourite');
+    Route::get('/video/favourite/{id}', 'Api\User\HomeController@favouriteList');
 });

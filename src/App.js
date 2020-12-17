@@ -3,7 +3,7 @@ import './App.scss';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import ScrollToTop from './components/ScrollToTop/Index'
-// import PrivateRoute from './components/PrivateRoute/Index'
+import PrivateRoute from './components/PrivateRoute/Index'
 
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -26,10 +26,13 @@ function App() {
             <Route exact path="/reset" component={Reset} />
             <Route exact path="/socket" component={SocketPage} />
 
-            {/* <PrivateRoute> */}
-              <Route path="/home" component={UserMaster} />
-              <Route path="/admin" component={AdminMaster} />
-            {/* </PrivateRoute> */}
+            <PrivateRoute path="/home" role="user">
+              <UserMaster />
+            </PrivateRoute>
+
+            <PrivateRoute path="/admin" role="admin">
+              <AdminMaster />
+            </PrivateRoute>
 
           </Switch>
         </ScrollToTop>

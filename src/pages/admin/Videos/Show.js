@@ -14,6 +14,13 @@ const Show = () => {
     const [isLoading, setLoading] = useState(false)
     const [fourOfour, setFourOFour] = useState(false)
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
         fetchVideo()
     }, [id, title])
@@ -22,7 +29,7 @@ const Show = () => {
     const fetchVideo = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`${url}admin/video/${id}`)
+            const response = await axios.get(`${url}admin/video/${id}`, header)
             if (response.status === 200) {
                 setLoading(false)
                 setVideo(response.data.video)

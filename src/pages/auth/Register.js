@@ -1,14 +1,58 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../styles/auth/style.scss'
-import { useForm } from "react-hook-form"
-import Logo from '../../assets/static/logo.png'
-import { Link } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { Link, useHistory } from 'react-router-dom'
+import Axios from 'axios'
+import api from '../../utils/url'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
+import Logo from '../../assets/static/logo.png'
+
+toast.configure()
 const Register = () => {
+    const history = useHistory()
     const { register, handleSubmit, errors } = useForm()
+    const [isLoading, setLoading] = useState(false)
+
+    // Check Token
+    const checkToken = (token) => {
+        localStorage.setItem('token', token)
+        const role = token.split('.')[0]
+        if (role === 'admin') {
+            return history.push('/admin')
+        }
+
+        if (role === 'user') {
+            return history.push('/home')
+        }
+    }
+
+    // Check if logged in 
+    if (localStorage.getItem('token')) {
+        checkToken(localStorage.getItem('token'))
+    }
 
     const onSubmit = async (data) => {
-        console.log(data)
+        try {
+            setLoading(true)
+            const response = await Axios.post(`${api}register`, data)
+            if (response.data.status === true) {
+                toast.success(response.data.message)
+                setLoading(false)
+                history.push('/')
+            }
+
+            if (response.data.status === false) {
+                toast.warn(response.data.message)
+                setLoading(false)
+            }
+        } catch (error) {
+            if (error) {
+                setLoading(false)
+                toast.warn(error.response.message)
+            }
+        }
     }
 
     return (
@@ -75,11 +119,17 @@ const Register = () => {
                                     placeholder="*****"
                                     ref={register({
                                         required: "Please enter password",
+                                        minLength: {
+                                            value: 8,
+                                            message: "Minimun length 8 character"
+                                        }
                                     })}
                                 />
                             </div>
 
-                            <button type="submit" className="btn btn-info shadow-none text-white btn-block">Submit</button>
+                            <button type="submit" className="btn btn-info shadow-none text-white btn-block" disabled={isLoading}>
+                                {isLoading ? <span>Submitting...</span> : <span>Submit</span>}
+                            </button>
                             <br />
 
                             <div className="text-right">

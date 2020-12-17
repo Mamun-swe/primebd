@@ -1,20 +1,82 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../../styles/user/upload-video/style.scss'
 import Icon from 'react-icons-kit'
 import { useForm } from "react-hook-form"
 import { ic_cloud_upload } from 'react-icons-kit/md'
+import axios from 'axios'
+import url from '../../../utils/url'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Navbar from '../../../components/UserNavbar/Index'
 
+toast.configure()
 const Audio = () => {
     const { register, handleSubmit, errors } = useForm()
     const [isLoading, setLoading] = useState(false)
-    const [progress, setProgress] = useState(0)
+    const [categories, setCategories] = useState([])
+    const [selectedAudio, setSelectedAudio] = useState(null)
+    const [fileErr, setFileErr] = useState({ audio: null })
+
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
+    useEffect(() => {
+        // Fetch Categories
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get(`${url}user/categories`, header)
+                setCategories(response.data)
+                setLoading(false)
+            } catch (error) {
+                if (error) {
+                    console.log(error.response)
+                    setLoading(false)
+                }
+            }
+        }
+
+        fetchCategories()
+    }, [])
+
+    // Audio onChange
+    const audioChangeHandeller = event => {
+        let file = event.target.files[0]
+        if (file && file.size > 7000000) {
+            setSelectedAudio(null)
+            setFileErr({ audio: 'Select less than 7 MB file' })
+        } else {
+            setSelectedAudio(file)
+        }
+    }
 
     const onSubmit = async (data) => {
-        console.log(data)
-        setLoading(true)
-        setProgress(20)
+        try {
+            if (!selectedAudio) {
+                return setFileErr({ audio: 'Audio is required' })
+            }
+
+            setLoading(true)
+            let formData = new FormData()
+            formData.append('user_id', localStorage.getItem('id'))
+            formData.append('title', data.title)
+            formData.append('category_id', data.category)
+            formData.append('audio', selectedAudio)
+
+            const response = await axios.post(`${url}user/audio/store`, formData, header)
+            if (response.status === 200) {
+                setLoading(false)
+                toast.success(response.data.message)
+            }
+        } catch (error) {
+            if (error) {
+                console.log(error.response)
+            }
+        }
     }
 
     return (
@@ -62,15 +124,24 @@ const Audio = () => {
                                                 required: "Category is required",
                                             })}
                                         >
-                                            <option>abc</option>
-                                            <option>abc</option>
-                                            <option>abc</option>
+                                            {categories && categories.map((category, i) =>
+                                                <option value={category.id} key={i}>{category.name}</option>
+                                            )}
                                         </select>
                                     </div>
 
                                     {/* Audio */}
                                     <div className="form-group mb-3">
-                                        <input type="file" id="audio" className="inputfile" accept="audio/*" />
+                                        {fileErr && fileErr.audio ? (
+                                            <small className="text-danger">{fileErr.audio}</small>
+                                        ) : null}
+                                        <input
+                                            type="file"
+                                            id="audio"
+                                            className="inputfile"
+                                            accept="audio/*"
+                                            onChange={audioChangeHandeller}
+                                        />
                                         <label htmlFor="audio">
                                             <p>Audio file</p>
                                         </label>
@@ -92,7 +163,6 @@ const Audio = () => {
                     <div className="flex-center flex-column">
                         <h6>Uploading...</h6>
                         <p>Don't leave before complete.</p>
-                        <h1 onClick={() => setLoading(false)}>{progress}%</h1>
                     </div>
                 </div>
                 : null}

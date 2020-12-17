@@ -11,12 +11,19 @@ const Index = () => {
     const [isLoading, setLoading] = useState(false)
     const [videos, setVideos] = useState([])
 
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
     useEffect(() => {
         // Fetch Random videos
         const fetchRandomVideos = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`${url}user/home`)
+                const response = await axios.get(`${url}user/home`, header)
                 setVideos(response.data.videos)
                 setLoading(false)
             } catch (error) {
