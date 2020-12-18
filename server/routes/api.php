@@ -34,4 +34,6 @@ Route::group(['prefix' => 'user', 'middleware' => ['user']], function () {
     Route::post('/audio/store', 'Api\User\HomeController@storeAudio');
     Route::post('/video/favourite', 'Api\User\HomeController@makeFavourite');
     Route::get('/video/favourite/{id}', 'Api\User\HomeController@favouriteList');
+
+    Route::get('/users/{id}', 'Api\User\HomeController@usersIndex');
 });

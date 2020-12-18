@@ -7,6 +7,7 @@ use App\Models\Audio;
 use App\Models\Category;
 use App\Models\Favourite;
 use App\Models\Video;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Validator;
@@ -280,6 +281,20 @@ class HomeController extends Controller
         return response()->json([
             'status' => true,
             'videos' => $resultsArr,
+        ], 200);
+    }
+
+    // All Users
+    public function usersIndex($id)
+    {
+        $users = User::where('role', '!=', 'admin')
+            ->where('id', '!=', $id)
+            ->select('id', 'name')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'users' => $users,
         ], 200);
     }
 }
