@@ -13,19 +13,26 @@ import FourOFourComponent from '../../../components/FourOFour/Index'
 const Peoples = () => {
     const [isLoading, setLoading] = useState(true)
     const [peoples, setPeoples] = useState([])
+    const id = localStorage.getItem('id')
+
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
 
     useEffect(() => {
         // Fetch Peoples
         const fetchPeoples = async () => {
             try {
-                const result = await axios.get(`${api}users`)
-                setPeoples(result.data)
+                const response = await axios.get(`${api}user/users/${id}`, header)
+                setPeoples(response.data.users)
                 setLoading(false)
             } catch (error) {
-                if (error && error.response.status === 404) {
+                if (error) {
                     setLoading(false)
                 }
-                console.log(error.response)
             }
         }
         fetchPeoples()
@@ -33,22 +40,26 @@ const Peoples = () => {
 
     // Slice Name
     const sliceName = name => {
-        return name.slice(0, 1)
+        if (name) {
+            return name.slice(0, 1)
+        }
+        return false
     }
 
     return (
         <div className="peoples">
             {isLoading ? <LoadingComponent /> :
                 <div>
+                    {/* Navbar */}
                     <Navbar title={'Peoples'} back={true} />
-                    <div className="d-flex links-tab border-bottom">
+                    {/* <div className="d-flex links-tab border-bottom">
                         <div className="flex-fill text-center">
                             <NavLink exact activeClassName="is-Active" to="/home/chat/">Messages</NavLink>
                         </div>
                         <div className="flex-fill text-center">
                             <NavLink exact activeClassName="is-Active" to="/home/chat/peoples">Peoples</NavLink>
                         </div>
-                    </div>
+                    </div> */}
 
 
                     {/* Person who created account */}

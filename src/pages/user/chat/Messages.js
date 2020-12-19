@@ -11,13 +11,22 @@ import FourOFourComponent from '../../../components/FourOFour/Index'
 const Messages = () => {
     const [isLoading, setLoading] = useState(true)
     const [messages, setMessages] = useState([])
+    const id = localStorage.getItem('id')
+
+    const header = {
+        headers:
+        {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
 
     useEffect(() => {
         // Fetch Messages
         const fetchMessages = async () => {
             try {
-                const result = await axios.get(`${api}users`)
-                setMessages(result.data)
+                const response = await axios.get(`${api}user/users/${id}`, header)
+                setMessages(response.data.users)
                 setLoading(false)
             } catch (error) {
                 if (error && error.response.status === 404) {

@@ -1,50 +1,63 @@
 import React, { useEffect, useState } from 'react'
 import '../../../styles/user/chat/style.scss'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
-import api from '../../../utils/url'
 import Icon from 'react-icons-kit'
 import { ic_near_me } from 'react-icons-kit/md'
 import { useForm } from 'react-hook-form'
+import io from 'socket.io-client'
 
 import Navbar from '../../../components/UserNavbar/Index'
 import LoadingComponent from '../../../components/Loading/Index'
 import FourOFourComponent from '../../../components/FourOFour/Index'
+// import ScrollToBottom from 'react-scroll-to-bottom'
+
+let socket;
 
 const MessageRoom = () => {
     const { id, name } = useParams()
     const { register, handleSubmit, errors } = useForm()
-    const [isLoading, setLoading] = useState(true)
+    const [isLoading, setLoading] = useState(false)
     const [messages, setMessages] = useState([])
+    const myId = localStorage.getItem('id')
+    const ENDPOINT = 'localhost:4000'
+
+    useEffect(() => {
+        socket = io(ENDPOINT, { transports: ['websocket', 'polling', 'flashsocket'] })
+        socket.emit("join", myId)
+        socket.on("message", (message) => {
+            setMessages((exMessage) => [...exMessage, message])
+        })
+    }, [id, name, myId, ENDPOINT])
+
+    // Submit Message
+    const onSubmit = async (data, event) => {
+        const messageData = {
+            sender: myId,
+            reciver: id,
+            message: data.message
+        }
+        setMessages((exMessage) => [...exMessage, messageData])
+
+        socket.emit('message', messageData, (response) => {
+            if (response) {
+                console.log('Successfully message send');
+            }
+        })
+        event.target.reset()
+    }
 
 
     useEffect(() => {
-        // Fetch Messages
-        const fetchMessages = async () => {
-            try {
-                const result = await axios.get(`${api}comments`)
-                setMessages(result.data.slice(0, 10))
-                setLoading(false)
-            } catch (error) {
-                if (error && error.response.status === 404) {
-                    setLoading(false)
-                }
-                console.log(error.response)
-            }
+        const data = {
+            sender: myId,
+            reciver: id
         }
-        fetchMessages()
-    }, [id, name])
+        socket.emit('getmessage', data, (response) => {
+            setMessages(response)
+        })
+    }, []);
 
 
-    // Slice Name
-    const sliceName = name => {
-        return name.slice(0, 1)
-    }
-
-    // Submit Message
-    const onSubmit = async (data) => {
-        console.log(data)
-    }
 
     return (
         <div className="message-room">
@@ -54,34 +67,34 @@ const MessageRoom = () => {
 
                     {/* Conversation Container */}
                     <div className="conversation-container">
+
                         {messages && messages.length > 0 ?
-                            messages.map((message, i) =>
+                            messages.map((items, i) =>
 
                                 <div className="message" key={i} id="message">
                                     <div className="d-flex">
-
-                                        {/* Sender */}
-                                        {i != id ?
+                                        {/* Reciver */}
+                                        {items.reciver == myId ?
                                             <div className="person-name-circle rounded-circle mr-1">
-                                                <div className="flex-center flex-column">
-                                                    <h6>{sliceName(name)}</h6>
-                                                </div>
+                                                {/* <div className="flex-center flex-column">
+                                                    <h6>{sliceName(items.message)}</h6>
+                                                    <h6>{items.reciver}</h6>
+                                                </div> */}
                                             </div>
                                             : null}
 
                                         {/* Conversation */}
-                                        <div className={i == id ? "recived-message ml-auto text-right" : "sender-message text-left"}>
-                                            <p>
-                                                {i + ' Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum.'}
-                                            </p>
+                                        <div className={items.sender == myId ? "recived-message ml-auto text-right" : "sender-message text-left"}>
+                                            <p>{items.message}</p>
                                         </div>
 
-                                        {/* Reciver */}
-                                        {i == id ?
+                                        {/* Sender */}
+                                        {items.sender == myId ?
                                             <div className="person-name-circle rounded-circle ml-1 bg-primary">
-                                                <div className="flex-center flex-column">
-                                                    <h6 className="text-white">{sliceName(message.email)}</h6>
-                                                </div>
+                                                {/* <div className="flex-center flex-column">
+                                                    <h6 className="text-white">{sliceName(items.message)}</h6>
+                                                    <h6 className="text-white">{items.sender}</h6>
+                                                </div> */}
                                             </div>
                                             : null}
                                     </div>
@@ -89,6 +102,7 @@ const MessageRoom = () => {
 
                             )
                             : <FourOFourComponent messages={'No message found.'} />}
+
                     </div>
 
 
