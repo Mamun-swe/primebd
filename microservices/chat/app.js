@@ -7,13 +7,19 @@ const morgan = require("morgan");
 const mongoose = require('mongoose');
 const Messages = require('./models/Messages')
 
-mongoose.connect('mongodb://localhost:27017/chat', {
+// DB Connection here
+mongoose.connect('mongodb+srv://mamun166009:1118964208@cluster0-lkz2b.mongodb.net/chat?retryWrites=true&w=majority', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useNewUrlParser: true
+});
+const db = mongoose.connection
+db.on('error', (err) => {
+  console.log(err)
 })
-
-mongoose.connection.on('connected', () => {
-  console.log('Database connected')
+db.once('open', () => {
+  console.log('MongoDB connection success')
 })
 
 

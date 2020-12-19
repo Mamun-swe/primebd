@@ -16,16 +16,18 @@ let socket;
 const MessageRoom = () => {
     const { id, name } = useParams()
     const { register, handleSubmit, errors } = useForm()
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setLoading] = useState(true)
     const [messages, setMessages] = useState([])
     const myId = localStorage.getItem('id')
-    const ENDPOINT = 'localhost:4000'
+    // const ENDPOINT = 'localhost:4000'
+    const ENDPOINT = 'https://chat-microservices.herokuapp.com'
 
     useEffect(() => {
         socket = io(ENDPOINT, { transports: ['websocket', 'polling', 'flashsocket'] })
         socket.emit("join", myId)
         socket.on("message", (message) => {
             setMessages((exMessage) => [...exMessage, message])
+            setLoading(false)
         })
     }, [id, name, myId, ENDPOINT])
 
@@ -54,6 +56,7 @@ const MessageRoom = () => {
         }
         socket.emit('getmessage', data, (response) => {
             setMessages(response)
+            setLoading(false)
         })
     }, []);
 
