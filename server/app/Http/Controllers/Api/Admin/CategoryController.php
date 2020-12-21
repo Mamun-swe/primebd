@@ -73,7 +73,7 @@ class CategoryController extends Controller
         $file = $request->file('image');
         $extension = $file->getClientOriginalExtension();
         $filename = time() . '.' . $extension;
-        $file->move('categories', $filename);
+        $file->move(public_path() . '/categories/', $filename);
 
         $form_data = array(
             'name' => $request->name,
@@ -144,7 +144,8 @@ class CategoryController extends Controller
 
             $old_image = public_path() . '/categories/' . $category->image;
             unlink($old_image);
-            $file->move('categories', $filename);
+            // $file->move('categories', $filename);
+            $file->move(public_path() . '/categories/', $filename);
 
             $form_data = array(
                 'name' => $request->name,

@@ -68,7 +68,7 @@ class AudioController extends Controller
             $file = $request->file('audio');
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '.' . $extension;
-            $file->move('audios', $fileName);
+            $file->move(public_path() . '/audios/', $filename);
             $audio->audio = $fileName;
         }
 

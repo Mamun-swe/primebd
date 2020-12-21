@@ -59,7 +59,7 @@ class VideoController extends Controller
             $file = $request->file('banner');
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '.' . $extension;
-            $file->move('banners', $fileName);
+            $file->move(public_path() . '/banners/', $filename);
             $video->banner = $fileName;
         }
 
@@ -67,7 +67,7 @@ class VideoController extends Controller
             $file = $request->file('video');
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '.' . $extension;
-            $file->move('videos', $fileName);
+            $file->move(public_path() . '/videos/', $filename);
             $video->video = $fileName;
         }
 
